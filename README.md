@@ -8,7 +8,7 @@ Ein 2D-Unity-Projekt über ein Roguelike-Strategiespiel mit Würfeln.
 Dieses Projekt wurde für das Modul **4FSC0PD003** am **SAE Institute Hannover** erstellt.
 Es beinhaltet Aufgaben: Softwareplanung, Asset Integration.
 
-Entwicklungs-Zeitraum: **25.03.2025 - 22.08.2025**  
+Entwicklungs-Zeitraum: **25.03.2025 - 22.08.2025**
 - Update am 08.01.2026
 
 Aufgaben:
