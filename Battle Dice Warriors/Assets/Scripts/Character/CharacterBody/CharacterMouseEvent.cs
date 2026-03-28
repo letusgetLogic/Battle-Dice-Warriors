@@ -2,16 +2,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System;
-using UnityEngine.UI;
 
 public class CharacterMouseEvent : MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private float _delayOnHoverTime = 0.5f;
 
-
     private IEnumerator _coroutine;
-
 
     private bool _isShowing = false;
 
