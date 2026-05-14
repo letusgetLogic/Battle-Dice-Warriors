@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------
 # Battle Dice Warriors
-Ein 2D-Unity-Projekt über ein Roguelike-Strategiespiel mit Würfeln.
+Ein 2D-Unity-Projekt über ein Strategiespiel mit Würfeln.
 
 ------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ Aufgaben:
 ## Spiel-Features
 - Rundenbasiertes Duell-System
 - Animation und Interaktion der Spielwürfeln
-- Struktur-Implementierung von Charakter via Prefab und Scriptable Object inkl. Interaktion
+- Struktur-Implementierung von Charakter per Prefab und Scriptable Object inkl. Interaktion
 - Erstellung von Logik und Implementierung von Aktionen mit Scriptable Object
 - Interaktion von UI und Spielfeld
 - Interaktion und Animation des Menüs
