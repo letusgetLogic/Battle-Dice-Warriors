@@ -9,7 +9,7 @@ Dieses Projekt wurde für das Modul **4FSC0PD003** am **SAE Institute Hannover**
 Es beinhaltet Aufgaben: Softwareplanung, Asset Integration.
 
 Entwicklungs-Zeitraum: **25.03.2025 - 22.08.2025**
-- Update am 08.01.2026
+- Update am 28.06.2026
 
 Aufgaben:
 - Erstellung eines Software-Entwurfsplan für das Spielprojekt (UML-Klassendiagramm, Programmablaufplan)
