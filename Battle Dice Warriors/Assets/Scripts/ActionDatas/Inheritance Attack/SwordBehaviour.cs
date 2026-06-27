@@ -67,7 +67,7 @@ public class SwordBehaviour : Attack
 
             if (!isSettingOnce)
             {
-                CharacterManager.Instance.SetInteractibleEnemyCharacters();
+                BattleController.Instance.DeactivateInteractible();
                 isSettingOnce = true;
             }
 

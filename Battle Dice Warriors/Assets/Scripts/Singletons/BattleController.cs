@@ -18,11 +18,11 @@ public class BattleController : MonoBehaviour
     public ActionPanel CurrentPanelOfDefend { get; set; }
     //public IEnumerator Coroutine { get; set; }
 
-    public DiceSlotAction CurrentActiveSlot { get; set; }
+    public ActionBase ActiveAction { get; set; }
 
     public bool IsLockingAction { get; set; } = false;
 
-
+    
 
     /// <summary>
     /// Awake method.
@@ -45,43 +45,13 @@ public class BattleController : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the interactable objects in lists and shows the PopUpAction. 
-    /// </summary>
-    /// <param name="diceNumber"></param>
-    /// <param name="actionPanel"></param>
-    public bool SetInteractible(DiceSlotAction diceSlotAction, int diceNumber)
-    {
-        CurrentActiveSlot = diceSlotAction;
-        return CurrentActiveSlot.Action.SetInteractible(diceNumber);
-    }
-
-    /// <summary>
-    /// Shows the interactible objects.
-    /// </summary>
-    /// <param name="diceNumber"></param>
-    /// <param name="actionPanel"></param>
-    public void ShowInteractible()
-    {
-        CurrentActiveSlot.Action.ShowInteractible();
-        IsLockingAction = true;
-    }
-
-    /// <summary>
-    /// Activates the skill of the current action based on the given dice number.
-    /// </summary>
-    /// <param name="diceNumber"></param>
-    public void ActivateSkill(int diceNumber)
-    {
-        CurrentActiveSlot.Action.ActivateSkill(diceNumber);
-    }
-
-    /// <summary>
     /// Deactivates the interactable objects and Sets the coroutine null.
     /// </summary>
     public void DeactivateInteractible()
     {
         FieldManager.Instance.DeactivateInteractibleFields();
         CharacterManager.Instance.DeactivateInteractibleCharacters();
+        ActiveAction = null;
         //SetCoroutineNull();
     }
 
@@ -104,11 +74,9 @@ public class BattleController : MonoBehaviour
     /// <param name="clickedObject"></param>
     public void HandleInput(GameObject clickedObject)
     {
+        ActiveAction.ProcessInput(clickedObject);
+        ActiveAction = null;
         DeactivateInteractible();
-
-        CurrentActiveSlot.Action.ProcessInput(clickedObject);
-        CurrentActiveSlot = null;
-        IsLockingAction = false;
     }
 
     /// <summary>
@@ -119,7 +87,7 @@ public class BattleController : MonoBehaviour
     {
         foreach (ActionPanel actionPanel in characterPanel.ActiveActionPanels)
         {
-           actionPanel.Action.UpdateHitEnduranceForDefend();
+            actionPanel.Action.UpdateHitEnduranceForDefend();
         }
     }
 
@@ -130,7 +98,7 @@ public class BattleController : MonoBehaviour
     public void EndMatch(PlayerType loser)
     {
         LevelManager.Instance.SubmitWinnerFrom(loser);
-       
+
         LevelManager.Instance.SetPhase(Phase.MatchOver);
     }
 }

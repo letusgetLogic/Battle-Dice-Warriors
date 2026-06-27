@@ -50,26 +50,14 @@ public class FieldManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Deactivates the old interactable fields if needed and creates a new list.
-    /// </summary>
-    /// <param name="characterFieldIndexOrigin"></param>
-    /// <param name="actionDirections"></param>
-    /// <param name="directionRange"></param>
-    public void SetInteractibleFields()
-    {
-        if (InteractibleFields != null)
-        {
-            DeactivateInteractibleFields();
-        }
-        InteractibleFields = new();
-    }
-
-    /// <summary>
     /// Adds a field object to the collection of interactable fields.
     /// </summary>
     /// <param name="fieldObject">The field object to add. This parameter cannot be <see langword="null"/>.</param>
     public void AddInteractibleField(GameObject fieldObject)
     {
+        if (InteractibleFields == null)
+            InteractibleFields = new();
+
         InteractibleFields.Add(fieldObject);
     }
 
@@ -80,6 +68,15 @@ public class FieldManager : MonoBehaviour
     /// <param name="actionDirections"></param>
     /// <param name="directionRange"></param>
     public void ShowInteractibleFields()
+    {
+        foreach (var fieldObject in InteractibleFields)
+        {
+            var field = fieldObject.GetComponent<FieldMouseEvent>();
+            field.AnimationHint.SetActive(true);
+        }
+    }
+
+    public void ActivateInactibleFields()
     {
         foreach (var fieldObject in InteractibleFields)
         {
@@ -94,12 +91,14 @@ public class FieldManager : MonoBehaviour
     /// <param name="clickedField"></param>
     public void DeactivateInteractibleFields()
     {
+        BattleController.Instance.ActiveAction = null;
+
         if (InteractibleFields == null)
             return;
 
         if (InteractibleFields.Count == 0)
         {
-            InteractibleFields = null; 
+            InteractibleFields = null;
             return;
         }
 
@@ -107,7 +106,9 @@ public class FieldManager : MonoBehaviour
         foreach (var fieldObject in InteractibleFields)
         {
             var field = fieldObject.GetComponent<Field>();
-            field.SetComponentEnabled(field.GetComponent<FieldMouseEvent>(), false);
+            var mouseEvent = fieldObject.GetComponent<FieldMouseEvent>();
+            mouseEvent.AnimationHint.SetActive(false);
+            field.SetComponentEnabled(mouseEvent, false);
         }
 
         InteractibleFields = null;

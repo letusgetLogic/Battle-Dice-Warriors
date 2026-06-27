@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,6 +8,7 @@ public class FieldMouseEvent : MonoBehaviour,
     [SerializeField] private GameObject _foggyPanel;
     [SerializeField] private GameObject _animationHint;
     [SerializeField] private GameObject _animationClick;
+    public GameObject AnimationHint => _animationHint;
 
     [SerializeField] private Color _onPointerEnterColor;
     [SerializeField] private float _animClickTime = .01f;

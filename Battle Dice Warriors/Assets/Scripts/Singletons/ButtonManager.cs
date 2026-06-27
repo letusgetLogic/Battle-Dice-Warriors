@@ -58,8 +58,7 @@ public class ButtonManager : MonoBehaviour
     /// </summary>
     public void OnEndTurnButton()
     {
-        FieldManager.Instance.DeactivateInteractibleFields();
-        CharacterManager.Instance.DeactivateInteractibleCharacters();
+        BattleController.Instance.DeactivateInteractible();
         TurnManager.Instance.SwitchTurn();
         SetGameObjectActive(_endTurnButtonObject, false);
     }

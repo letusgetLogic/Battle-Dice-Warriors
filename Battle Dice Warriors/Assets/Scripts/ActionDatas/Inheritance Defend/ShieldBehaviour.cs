@@ -73,7 +73,7 @@ public class ShieldBehaviour : Defend
             IsHitCrucial = false;
 
         actionPanel.UpdateEndurance(skill.HitEndurance, skill.RoundEndurance);
-    
+        BattleController.Instance.ActiveAction = null;
     }
 
         //private Dictionary<string, string> _defendDescription = new Dictionary<string, string>

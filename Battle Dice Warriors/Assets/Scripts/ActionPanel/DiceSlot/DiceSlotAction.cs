@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DiceSlotAction : MonoBehaviour, IDropHandler
 {
-    [SerializeField][Range(0f, 1f)] private float _delayShowingInteractible = .5f;
+    //[SerializeField][Range(0f, 1f)] private float _delayShowingInteractible = .5f;
 
     private ActionPanel _actionPanel => GetComponent<ActionPanel>();
     public ActionBase Action => _actionPanel.Action;
@@ -42,21 +41,24 @@ public class DiceSlotAction : MonoBehaviour, IDropHandler
         var diceObject = eventData.pointerDrag;
         var dice = diceObject.GetComponent<Dice>();
 
-        if (_actionPanel.Action.IsValid(dice.CurrentNumber) == false)
+        if (Action.IsValid(dice.CurrentNumber) == false)
             return;
 
-        bool isInteractable = BattleController.Instance.SetInteractible(this, dice.CurrentNumber);
+        bool isInteractable = Action.SetInteractible(dice.CurrentNumber);
         if (isInteractable == false)
             return;
         Debug.Log("OnDrop, isInteractable " + isInteractable);
         //if (IsThereActiveObject() == false)
         //    return;
 
-        BattleController.Instance.ShowInteractible();
+        BattleController.Instance.ActiveAction = Action;
+        Action.ShowInteractible();
+        Action.ActivateInteractible();
 
         dice.SetOnActionSlot(_actionPanel.DiceSlotAction.position);
 
-        BattleController.Instance.ActivateSkill(dice.CurrentNumber);
+        Action.ActivateSkill(dice.CurrentNumber);
     }
+
 }
 

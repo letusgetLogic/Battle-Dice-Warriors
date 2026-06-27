@@ -41,6 +41,11 @@ public abstract class ActionBase
     public abstract void ShowInteractible();
 
     /// <summary>
+    /// Activates the interactible objects.
+    /// </summary>
+    public abstract void ActivateInteractible();
+
+    /// <summary>
     /// Activates the skill of the action.
     /// </summary>
     public virtual void ActivateSkill(int diceNumber)
@@ -71,6 +76,11 @@ public abstract class ActionBase
     public virtual void SetDataPopUp(int diceNumber)
     {
         PopUpAction.Instance.SetData(actionPanel.ActionData.Description);
+    }
+
+    public virtual void SetDefault()
+    {
+        activeSkillIndex = 0;
     }
 }
 

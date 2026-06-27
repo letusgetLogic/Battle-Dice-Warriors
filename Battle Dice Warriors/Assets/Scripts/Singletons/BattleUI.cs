@@ -11,6 +11,7 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private float _warningDuration = 0.2f;
     [SerializeField] private GameObject _index;
 
+    public bool IsShowingIndex;
 
     private void Awake()
     {
@@ -20,9 +21,7 @@ public class BattleUI : MonoBehaviour
         }
         Inst = this;
 
-#if UNITY_EDITOR
-        _index.SetActive(true);
-#endif
+        _index.SetActive(IsShowingIndex);
     }
 
     public void ShowWarning(string message)

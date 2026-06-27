@@ -72,13 +72,15 @@ public class DiceMovement : MonoBehaviour
     /// </summary>
     public void SendBackToBase()
     {
-        _currentPosition = _rectTransform.anchoredPosition;
+        _rectTransform.anchoredPosition = _basePosition;
 
-        var dice = GetComponent<Dice>();
-        var diceDragEvent = GetComponent<DiceDragEvent>();
-        dice.SetComponentEnabled(diceDragEvent, false);
+        //_currentPosition = _rectTransform.anchoredPosition;
 
-        _isRunning = true;
+        //var dice = GetComponent<Dice>();
+        //var diceDragEvent = GetComponent<DiceDragEvent>();
+        //dice.SetComponentEnabled(diceDragEvent, false);
+
+        //_isRunning = true;
     }
 
     /// <summary>

@@ -28,6 +28,9 @@ public abstract class Defend : ActionBase
     public override void ShowInteractible()
     {}
 
+    public override void ActivateInteractible()
+    {}
+
     public override void ProcessInput(GameObject fieldObject)
     {}
 

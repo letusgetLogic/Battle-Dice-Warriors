@@ -22,26 +22,14 @@ public class CharacterManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Deactivates the old interactable characters if needed and creates a new list.
-    /// </summary>
-    /// <param name="characterFieldIndexOrigin"></param>
-    /// <param name="actionDirections"></param>
-    /// <param name="range"></param>
-    public void SetInteractibleEnemyCharacters()
-    {
-        if (InteractibleCharacters != null)
-        {
-            DeactivateInteractibleCharacters();
-        }
-        InteractibleCharacters = new();
-    }
-
-    /// <summary>
     /// Adds a character to the list of interactable characters.
     /// </summary>
     /// <param name="characterObject"></param>
     public void AddCharacter(GameObject characterObject)
     {
+        if (InteractibleCharacters == null)
+            InteractibleCharacters = new();
+
         InteractibleCharacters.Add(characterObject);
     }
 
@@ -49,6 +37,19 @@ public class CharacterManager : MonoBehaviour
     /// Shows the interactible characters.
     /// </summary>
     public void ShowInteractibleCharacters()
+    {
+        foreach (var characterObject in InteractibleCharacters)
+        {
+            var borderColor = characterObject.GetComponent<CharacterBorderColor>();
+            var character = characterObject.GetComponent<Character>();
+            character.SetComponentEnabled(borderColor, true);
+        }
+    }
+
+    /// <summary>
+    /// Activates the interactible characters.
+    /// </summary>
+    public void ActivateInteractibleCharacters()
     {
         foreach (var characterObject in InteractibleCharacters)
         {

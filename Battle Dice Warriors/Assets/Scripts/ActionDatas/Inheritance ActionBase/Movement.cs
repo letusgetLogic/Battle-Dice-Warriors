@@ -67,7 +67,7 @@ public class Movement : ActionBase
 
             if (!isSettingOnce)
             {
-                FieldManager.Instance.SetInteractibleFields();
+                BattleController.Instance.DeactivateInteractible();
                 activeSkillIndex = diceNumber;
                 isSettingOnce = true;
             }
@@ -118,6 +118,11 @@ public class Movement : ActionBase
     public override void ShowInteractible()
     {
         FieldManager.Instance.ShowInteractibleFields();
+    }
+
+    public override void ActivateInteractible()
+    {
+        FieldManager.Instance.ActivateInactibleFields();
     }
 
     public override void ProcessInput(GameObject fieldObject)

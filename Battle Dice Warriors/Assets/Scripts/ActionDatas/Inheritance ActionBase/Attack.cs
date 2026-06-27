@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Attack : ActionBase
 {
@@ -26,6 +25,11 @@ public abstract class Attack : ActionBase
     public override void ShowInteractible()
     {
         CharacterManager.Instance.ShowInteractibleCharacters();
+    }
+
+    public override void ActivateInteractible()
+    {
+        CharacterManager.Instance.ActivateInteractibleCharacters();
     }
 
     public override void ProcessInput(GameObject clickedCharacterBody)

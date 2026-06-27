@@ -17,17 +17,18 @@ public class ActionPanelMouseEvent : MonoBehaviour,
     /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (LevelManager.Instance.CurrentPhase != Phase.Battle)
+        if (LevelManager.Instance.CurrentPhase != Phase.Battle ||
+            TurnManager.Instance.Turn != _playerType)
             return;
 
-        var diceNumber = 0;
+        Dice dice = null;
 
         if (eventData.pointerDrag != null && eventData.pointerDrag.CompareTag("Dice"))
         {
-            diceNumber = eventData.pointerDrag.GetComponent<Dice>().CurrentNumber;
+            dice = eventData.pointerDrag.GetComponent<Dice>();
         }
 
-        _coroutine = ShowInfo(diceNumber);
+        _coroutine = ShowInfo(dice);
         StartCoroutine(_coroutine);
     }
 
@@ -36,7 +37,8 @@ public class ActionPanelMouseEvent : MonoBehaviour,
     /// </summary>
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (LevelManager.Instance.CurrentPhase != Phase.Battle)
+        if (LevelManager.Instance.CurrentPhase != Phase.Battle ||
+            TurnManager.Instance.Turn != _playerType)
             return;
 
         // Ensure that the coroutine is not null before stopping it.
@@ -47,20 +49,52 @@ public class ActionPanelMouseEvent : MonoBehaviour,
         }
 
         HidePopUp();
+
+        var panel = GetComponent<ActionPanel>();
+        if (panel == null)
+            return;
+
+        if (BattleController.Instance.ActiveAction == null)
+        {
+            BattleController.Instance.DeactivateInteractible();
+        }
+
+        if (BattleController.Instance.ActiveAction != panel.Action)
+        {
+            panel.Action.SetDefault();
+        }
     }
 
     /// <summary>
     /// Shows the action popup.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator ShowInfo(int diceNumber)
+    private IEnumerator ShowInfo(Dice dice)
     {
         yield return new WaitForSeconds(_delayOnHoverTime);
 
+        var panel = GetComponent<ActionPanel>();
+        if (panel == null)
+            yield break;
+
         PanelManager.Instance.SetActive(PanelManager.Instance.PopUpActionObject, true);
 
-        GetComponent<ActionPanel>().Action.SetDataPopUp(diceNumber);
+        int diceNumber = dice == null ? 0 : dice.CurrentNumber;
+
+        panel.Action.SetDataPopUp(diceNumber);
         PopUpAction.Instance.SetPosition(gameObject);
+
+        if (dice == null)
+            yield break;
+
+        if (panel.Action.IsValid(dice.CurrentNumber) == false)
+            yield break;
+
+        bool isInteractable = panel.Action.SetInteractible(dice.CurrentNumber);
+        if (isInteractable == false)
+            yield break;
+
+        panel.Action.ShowInteractible();
     }
 
     /// <summary>
