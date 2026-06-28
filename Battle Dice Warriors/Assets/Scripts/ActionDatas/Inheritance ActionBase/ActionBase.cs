@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 public abstract class ActionBase
 {
-    protected ActionPanel actionPanel { get; private set; }
-    protected GameObject characterObject { get; private set; }
-    protected Character character => characterObject.GetComponent<Character>();
+    protected ActionPanel ActionPanel { get; private set; }
+    protected GameObject CharacterObject { get; private set; }
+    protected Character Character => CharacterObject.GetComponent<Character>();
 
-    protected int activeSkillIndex { get; set; } = 0;
-
+    protected int ActiveSkillIndex { get; set; } = 0;
 
     /// <summary>
     /// Sets data when the constructor has been created.
@@ -15,8 +14,8 @@ public abstract class ActionBase
     /// <param name="characterObject"></param>
     public ActionBase(ActionPanel actionPanel, GameObject characterObject)
     {
-        this.actionPanel = actionPanel;
-        this.characterObject = characterObject;
+        ActionPanel = actionPanel;
+        CharacterObject = characterObject;
     }
 
     /// <summary>
@@ -26,14 +25,14 @@ public abstract class ActionBase
     /// <exception cref="NotImplementedException"></exception>
     public virtual bool IsValid(int diceNumber)
     {
-        return CheckDiceCondition.IsNumberValid(actionPanel.ActionData.AllowedDiceNumber, diceNumber);
+        return CheckDiceCondition.IsNumberValid(ActionPanel.ActionData.AllowedDiceNumber, diceNumber);
     }
 
     /// <summary>
-    /// Sets the interactible objects.
+    /// Finds the interactible objects.
     /// </summary>
     /// <param name="diceNumber"></param>
-    public abstract bool SetInteractible(int diceNumber);
+    public abstract bool FindInteractible(int diceNumber);
 
     /// <summary>
     /// Shows the interactible objects.
@@ -75,12 +74,50 @@ public abstract class ActionBase
     /// <param name="diceNumber"></param>
     public virtual void SetDataPopUp(int diceNumber)
     {
-        PopUpAction.Instance.SetData(actionPanel.ActionData.Description);
+        PopUpAction.Instance.SetData(ActionPanel.ActionData.Description);
     }
 
     public virtual void SetDefault()
     {
-        activeSkillIndex = 0;
+        ActiveSkillIndex = 0;
     }
+
+    /// <summary>
+    /// Finds the first target within a specified range and direction from the given origin field index.
+    /// </summary>
+    /// <remarks>This method iterates through fields in the specified direction and range, skipping fields
+    /// that are out of bounds.  The search stops as soon as a valid target is found. If no target is found within the
+    /// range, the method returns <see langword="null"/>.</remarks>
+    /// <param name="characterFieldIndexOrigin">The starting field index of the character, represented as a 2D grid coordinate.</param>
+    /// <param name="actionDirection">The direction in which to search for the target, represented as a 2D vector.</param>
+    /// <param name="range">The maximum number of fields to search in the specified direction. Must be a positive integer.</param>
+    /// <param name="objectManager">An object that defines the logic for identifying the target within a field.</param>
+    /// <returns>The first <see cref="GameObject"/> found within the specified range and direction that matches the criteria
+    /// defined by  <paramref name="objectManager"/>. Returns <see langword="null"/> if no target is found.</returns>
+    public GameObject FindEnemy(Vector2Int characterFieldIndexOrigin,
+       Vector2Int actionDirection, int range)
+    {
+        for (int i = 1; i <= range; i++)
+        {
+            var fieldIndex = characterFieldIndexOrigin;
+            fieldIndex += actionDirection * i;
+
+            if (FieldManager.Instance.IsTargetOutOfMap(fieldIndex))
+                return null;
+
+            var field = FieldManager.Instance.Fields[fieldIndex.x, fieldIndex.y].
+            GetComponent<Field>();
+
+            GameObject target = field.EnemyObject(Character.Player.PlayerType);
+
+            if (target == null)
+                continue;
+
+            return target;
+        }
+
+        return null;
+    }
+
 }
 

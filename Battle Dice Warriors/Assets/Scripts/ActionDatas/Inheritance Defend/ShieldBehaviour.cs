@@ -3,7 +3,7 @@
 public class ShieldBehaviour : Defend
 {
 
-    private static readonly string[] description = new string[]
+    private static readonly string[] infos = new string[]
     {
             DefaultDescription,
             "Roll 1: Increase DP by 100% for 1 round. It doesn't stack.",
@@ -14,7 +14,7 @@ public class ShieldBehaviour : Defend
             "Roll 6: Increase DP by 260% for 1 round. It doesn't stack.",
     };
   
-    private static readonly ShieldSkill[] shieldSkills = new ShieldSkill[]
+    private static readonly DefendSkill[] shieldSkills = new DefendSkill[]
     {
         // dpP., dmg, hit, round, buffText
         new(0,    0,   0,    0, ""),          // Default
@@ -26,6 +26,9 @@ public class ShieldBehaviour : Defend
         new(260,  0,   0,    1, "(+260% DP)") // Dice 6
     };
 
+    public override DefendSkill Skill(int index) => shieldSkills[index];
+    public override string Info(int index) => infos[index];
+
     public ShieldBehaviour(ActionPanel actionPanel, GameObject characterObject) :
        base(actionPanel, characterObject)
     {
@@ -34,20 +37,20 @@ public class ShieldBehaviour : Defend
 
     public override void SetDataPopUp(int index)
     {
-        if (index == 0 && activeSkillIndex != 0)
+        if (index == 0 && ActiveSkillIndex != 0)
         {
-            PopUpAction.Instance.SetData(description[activeSkillIndex]);
+            PopUpAction.Instance.SetData(infos[ActiveSkillIndex]);
             return;
         }
-        PopUpAction.Instance.SetData(description[index]);
+        PopUpAction.Instance.SetData(infos[index]);
     }
 
     public override void ActivateSkill(int diceNumber)
     {
-        activeSkillIndex = diceNumber;
+        ActiveSkillIndex = diceNumber;
         var skill = shieldSkills[diceNumber];
-        var characterDefend = character.GetComponent<CharacterDefense>();
-        var characterWeapon = character.GetComponent<CharacterWeapon>();
+        var characterDefend = Character.GetComponent<CharacterDefense>();
+        var characterWeapon = Character.GetComponent<CharacterWeapon>();
         characterWeapon.IsProtecting = true;
 
         if (skill.Percentage > 0)
@@ -72,7 +75,7 @@ public class ShieldBehaviour : Defend
         else
             IsHitCrucial = false;
 
-        actionPanel.UpdateEndurance(skill.HitEndurance, skill.RoundEndurance);
+        ActionPanel.UpdateEndurance(skill.HitEndurance, skill.RoundEndurance);
         BattleController.Instance.ActiveAction = null;
     }
 

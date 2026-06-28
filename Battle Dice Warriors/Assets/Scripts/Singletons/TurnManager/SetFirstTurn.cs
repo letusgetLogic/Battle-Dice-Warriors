@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using TMPro;
 using UnityEngine;
 
 public class SetFirstTurn : MonoBehaviour
@@ -73,10 +72,10 @@ public class SetFirstTurn : MonoBehaviour
             return;
         }
 
-        var turnDice = new GameObject[]
+        var turnDice = new Dice[]
         {
-                _turnDiceLeft,
-                _turnDiceRight,
+                _turnDiceLeft.GetComponent<Dice>(),
+                _turnDiceRight.GetComponent<Dice>(),
         };
 
         RollDice.Instance.Roll(

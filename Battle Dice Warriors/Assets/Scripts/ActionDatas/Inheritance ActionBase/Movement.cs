@@ -8,28 +8,28 @@ public class Movement : ActionBase
     public override void SetDataPopUp(int index)
     {
         // Dragging nothing and dice is on slot
-        if (index == 0 && activeSkillIndex != 0)
+        if (index == 0 && ActiveSkillIndex != 0)
         {
-            PopUpAction.Instance.SetData(Description(activeSkillIndex));
+            PopUpAction.Instance.SetData(Description(ActiveSkillIndex));
             return;
         }
 
         // Dragging a dice
-        if (index > 0 && CheckDiceCondition.IsNumberValid(actionPanel.ActionData.AllowedDiceNumber, index))
+        if (index > 0 && CheckDiceCondition.IsNumberValid(ActionPanel.ActionData.AllowedDiceNumber, index))
         {
             PopUpAction.Instance.SetData(Description(index));
             return;
         }
 
         // Dragging nothing or a invalid dice
-        PopUpAction.Instance.SetData(actionPanel.ActionData.Description);
+        PopUpAction.Instance.SetData(ActionPanel.ActionData.Description);
     }
 
     private string Description(int index)
     {
         string s = "Move ";
         
-        switch(actionPanel.ActionData.Direction)
+        switch(ActionPanel.ActionData.Direction)
         {
             case Direction.None:
                 break;
@@ -44,37 +44,29 @@ public class Movement : ActionBase
                 break;
         }
 
-        int i = GetIntFromAllowedTile.Get(actionPanel.ActionData.AllowedTile, index);
+        int i = GetIntFromAllowedTile.Get(ActionPanel.ActionData.AllowedTile, index);
         s += i + (i == 1 ? " Tile" : " Tiles");
 
         return s;
     }
 
-    public override bool SetInteractible(int diceNumber)
+    public override bool FindInteractible(int diceNumber)
     {
         Vector2Int[] actionDirections = 
-            GetVector2IntFromDirection.Get(base.actionPanel.ActionData.Direction);
+            GetVector2IntFromDirection.Get(base.ActionPanel.ActionData.Direction);
 
-        int range = GetIntFromAllowedTile.Get(actionPanel.ActionData.AllowedTile, diceNumber);
+        int range = GetIntFromAllowedTile.Get(ActionPanel.ActionData.AllowedTile, diceNumber);
 
         bool isMovePossible = false;
-        bool isSettingOnce = false;
 
         foreach (Vector2Int actionDirection in actionDirections)
         {
             if (IsAnyObstacleInWay(actionDirection, range))
                 continue;
 
-            if (!isSettingOnce)
-            {
-                BattleController.Instance.DeactivateInteractible();
-                activeSkillIndex = diceNumber;
-                isSettingOnce = true;
-            }
-
             isMovePossible = true;
 
-            Vector2Int fieldIndex = character.FieldIndex;
+            Vector2Int fieldIndex = Character.FieldIndex;
             fieldIndex += actionDirection * range;
 
             GameObject fieldObject = 
@@ -82,6 +74,8 @@ public class Movement : ActionBase
 
             FieldManager.Instance.AddInteractibleField(fieldObject);
         }
+
+        ActiveSkillIndex = isMovePossible ? diceNumber : 0;
 
         return isMovePossible;
     }
@@ -100,7 +94,7 @@ public class Movement : ActionBase
     {
         for (int i = 1; i <= range; i++)
         {
-            var fieldIndex = character.FieldIndex;
+            var fieldIndex = Character.FieldIndex;
             fieldIndex += actionDirection * i;
 
             if (FieldManager.Instance.IsTargetOutOfMap(fieldIndex))
@@ -133,8 +127,7 @@ public class Movement : ActionBase
             return;
         }
 
-        characterObject.GetComponent<CharacterMovement>().MoveTo(fieldObject);
-        activeSkillIndex = 0;
+        CharacterObject.GetComponent<CharacterMovement>().MoveTo(fieldObject);
+        ActiveSkillIndex = 0;
     }
-
 }

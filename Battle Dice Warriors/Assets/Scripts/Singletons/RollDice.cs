@@ -27,7 +27,7 @@ public class RollDice : MonoBehaviour
     /// <summary>
     /// Rolls dice.
     /// </summary>
-    public void Roll(GameObject[] diceList, int rollFrequency,
+    public void Roll(Dice[] diceList, int rollFrequency,
                     float animTimer, System.Action action)
     {
         StartCoroutine(AnimateDiceRoll(diceList, rollFrequency, animTimer, action));
@@ -37,15 +37,14 @@ public class RollDice : MonoBehaviour
     /// Animates dice roll.
     /// </summary>
     /// <returns></returns>
-    public IEnumerator AnimateDiceRoll(GameObject[] diceList, int rollFrequency,
+    public IEnumerator AnimateDiceRoll(Dice[] diceList, int rollFrequency,
                                         float animTimer, System.Action action)
     {
         for (int i = 0; i < rollFrequency; i++)
         {
-            foreach (var diceObject in diceList)
+            foreach (var dice in diceList)
             {
-                var dice = diceObject.GetComponent<Dice>();
-                var diceDisplay = diceObject.GetComponent<DiceDisplay>();
+                var diceDisplay = dice.GetComponent<DiceDisplay>();
                 int sideIndex = UnityEngine.Random.Range(1, diceDisplay.DiceSide.Length);
                 dice.InitializeSide(sideIndex);
             }

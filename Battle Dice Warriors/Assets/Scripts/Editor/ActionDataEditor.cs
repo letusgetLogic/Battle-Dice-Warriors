@@ -33,7 +33,7 @@ public class ActionDataEditor : Editor
 
             case ActionType.Attack:
                 DrawAttackFields();
-                _actionData.Description = Attack.DefaultDescription;
+                _actionData.Description = Attack.DefaultInfo;
                 DrawDescriptionFields();
                 break;
 

@@ -1,4 +1,4 @@
-﻿public class SwordSkill
+﻿public struct AttackSkill
 {
     public Direction Direction;
     public int Range;   
@@ -7,7 +7,7 @@
     public int RoundEndurance;
     public string BuffAPText;
 
-    public SwordSkill(Direction direction, int range, int percentage, int hitEndurance, int roundEndurance, string buffAPText)
+    public AttackSkill(Direction direction, int range, int percentage, int hitEndurance, int roundEndurance, string buffAPText)
     {
         Direction = direction;
         Range = range;

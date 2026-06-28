@@ -2,21 +2,23 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DiceDragEvent : MonoBehaviour, 
-    IDragHandler, IBeginDragHandler, IEndDragHandler
+public class DiceDragEvent : MonoBehaviour,
+    IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private float _delayEndDrag = 0.1f;
 
     private Dice _dice;
     private DiceDisplay _display;
     private DiceMovement _move;
+    private Vector3 defaultScale;
 
     private void Start()
     {
         _dice = GetComponent<Dice>();
         _display = GetComponent<DiceDisplay>();
         _move = GetComponent<DiceMovement>();
-}
+        defaultScale = transform.localScale;
+    }
 
     /// <summary>
     /// Triggers event at the beginning of drag.
@@ -32,7 +34,7 @@ public class DiceDragEvent : MonoBehaviour,
             _display.SetBlocksRaycasts(false);
             _display.SetScale();
         }
-       
+
     }
 
     /// <summary>
@@ -47,7 +49,7 @@ public class DiceDragEvent : MonoBehaviour,
         {
             _display.UpdatePosition(eventData);
         }
-       
+
     }
 
     /// <summary>
@@ -62,7 +64,7 @@ public class DiceDragEvent : MonoBehaviour,
         _display.SetBlocksRaycasts(true);
 
         StartCoroutine(WaitForEndDrag());
-        
+
     }
 
     /// <summary>
@@ -79,6 +81,16 @@ public class DiceDragEvent : MonoBehaviour,
         }
 
         _move.SendBackToBase();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        transform.localScale *= 1.2f;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        transform.localScale = defaultScale;
     }
 }
 

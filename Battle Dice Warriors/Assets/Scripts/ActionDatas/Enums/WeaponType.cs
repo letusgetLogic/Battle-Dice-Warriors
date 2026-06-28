@@ -3,6 +3,7 @@
     None,
     Sword,
     Shield,
+    Sword2,
     Bow,
     Knife,
     MagicStaff,

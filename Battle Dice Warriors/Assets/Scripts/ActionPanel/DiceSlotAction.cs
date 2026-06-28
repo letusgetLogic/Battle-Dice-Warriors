@@ -44,7 +44,7 @@ public class DiceSlotAction : MonoBehaviour, IDropHandler
         if (Action.IsValid(dice.CurrentNumber) == false)
             return;
 
-        bool isInteractable = Action.SetInteractible(dice.CurrentNumber);
+        bool isInteractable = Action.FindInteractible(dice.CurrentNumber);
         if (isInteractable == false)
             return;
         Debug.Log("OnDrop, isInteractable " + isInteractable);

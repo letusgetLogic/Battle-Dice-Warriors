@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using UnityEngine;
 
 public static class GetActionBase
@@ -47,7 +46,10 @@ public static class GetActionBase
                     "-> data.WeaponType = None");
 
             case WeaponType.Sword:
-                return new SwordBehaviour(actionPanel, characterObject);
+                return new MeleeBehaviour(actionPanel, characterObject, WeaponType.Sword);
+
+            case WeaponType.Bow:
+                return new RangeBehaviour(actionPanel, characterObject);
         }
 
         throw new System.Exception("Didn't match any case in GetActionBase.CreateAttackChild()");

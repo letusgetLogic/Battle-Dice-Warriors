@@ -16,6 +16,7 @@ public class CharacterAttack : MonoBehaviour
     {
         CurrentAP = OriginAP;
         CurrentBuffAP = 0f;
+        InfoText = string.Empty;
     }
 
 }

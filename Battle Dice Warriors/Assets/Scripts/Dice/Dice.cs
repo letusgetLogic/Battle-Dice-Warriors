@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class Dice : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Dice : MonoBehaviour
     private DiceDisplay _diceDisplay;
     private DiceMovement _diceMovement;
 
+    public UnityAction<Dice> OnDropped;
     public bool IsDropped { get; set; } = false;
 
     /// <summary>
@@ -53,6 +55,8 @@ public class Dice : MonoBehaviour
     public void SetOnActionSlot(Vector3 pos)
     {
         IsDropped = true;
+        OnDropped?.Invoke(this);
+
         SetComponentEnabled(GetComponent<DiceDragEvent>(), false);
 
         _diceMovement.PositionsTo(pos);

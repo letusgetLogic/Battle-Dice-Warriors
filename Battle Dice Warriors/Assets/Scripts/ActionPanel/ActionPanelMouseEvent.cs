@@ -90,7 +90,9 @@ public class ActionPanelMouseEvent : MonoBehaviour,
         if (panel.Action.IsValid(dice.CurrentNumber) == false)
             yield break;
 
-        bool isInteractable = panel.Action.SetInteractible(dice.CurrentNumber);
+        BattleController.Instance.DeactivateInteractible(); // Reset the list of interactible
+
+        bool isInteractable = panel.Action.FindInteractible(dice.CurrentNumber);
         if (isInteractable == false)
             yield break;
 

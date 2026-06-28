@@ -7,9 +7,10 @@ public class RollPanel : MonoBehaviour
     private Button _rollButton;
     public Button RollButton => _rollButton;
 
-    [SerializeField] private GameObject[] _allDice;
+    [SerializeField] private Dice[] _allDice;
+    [SerializeField] private UndoButton[] _undoButtons;
 
-    public GameObject[] PlayDice { get; private set; }
+    public Dice[] PlayDice { get; private set; }
 
     /// <summary>
     /// Initializes the PlayDice array with the active dice from _allDice
@@ -17,19 +18,19 @@ public class RollPanel : MonoBehaviour
     /// </summary>
     public void InitializePlayDice()
     {
-        PlayDice = new GameObject[LevelManager.Instance.Data.DiceAmount];
+        PlayDice = new Dice[LevelManager.Instance.Data.DiceAmount];
 
         for (int i = 0; i < PlayDice.Length; i++)
         {
-            var diceObject = _allDice[i];
-            var dice = diceObject.GetComponent<Dice>();
+            var dice = _allDice[i];
             dice.InitializeIndexOf(gameObject, i);
 
-            diceObject.GetComponent<RectTransform>().localScale = Vector3.zero;
-            var diceDragEvent = diceObject.GetComponent<DiceDragEvent>();
+            dice.GetComponent<RectTransform>().localScale = Vector3.zero;
+            var diceDragEvent = dice.GetComponent<DiceDragEvent>();
             dice.SetComponentEnabled(diceDragEvent, false);
 
-            PlayDice[i] = diceObject;
+            _undoButtons[i].Init(dice);
+            PlayDice[i] = dice;
         }
     }
 
@@ -42,7 +43,7 @@ public class RollPanel : MonoBehaviour
         for (int i = PlayDice.Length; i < _allDice.Length; i++)
         {
             var dice = _allDice[i];
-            dice.SetActive(false);
+            dice.gameObject.SetActive(false);
         }
     }
 
@@ -52,12 +53,11 @@ public class RollPanel : MonoBehaviour
     /// <param name="amount"></param>
     public void SetDiceDefault()
     {
-        foreach (var diceObject in PlayDice)
+        foreach (var dice in PlayDice)
         {
-            var dice = diceObject.GetComponent<Dice>();
             dice.SetDefault();
 
-            var diceDisplay = diceObject.GetComponent<DiceDisplay>();
+            var diceDisplay = dice.GetComponent<DiceDisplay>();
             diceDisplay.SetDefault();
             diceDisplay.SetIdleRolling();
         }
@@ -71,9 +71,9 @@ public class RollPanel : MonoBehaviour
         ButtonManager.Instance.SetButtonInteractible(RollButton, false);
         ButtonManager.Instance.SetGameObjectActive(ButtonManager.Instance.EndTurnButtonObject, true);
 
-        foreach (var diceObject in PlayDice)
+        foreach (var dice in PlayDice)
         {
-            var diceDisplay = diceObject.GetComponent<DiceDisplay>();
+            var diceDisplay = dice.GetComponent<DiceDisplay>();
             diceDisplay.IsDiceIdleRolling = false;
         }
 
@@ -98,12 +98,11 @@ public class RollPanel : MonoBehaviour
     /// </summary>
     /// <param name="diceObjects"></param>
     /// <param name="value"></param>
-    public void SetDragEnabled(GameObject[] diceObjects, bool value)
+    public void SetDragEnabled(Dice[] diceObjects, bool value)
     {
-        foreach (GameObject diceObject in diceObjects)
+        foreach (Dice dice in diceObjects)
         {
-            var dice = diceObject.GetComponent<Dice>();
-            var diceDragEvent = diceObject.GetComponent<DiceDragEvent>();
+            var diceDragEvent = dice.GetComponent<DiceDragEvent>();
             dice.SetComponentEnabled(diceDragEvent, value);
         }
     }
@@ -112,11 +111,11 @@ public class RollPanel : MonoBehaviour
     /// Sets the alpha of the dice down.
     /// </summary>
     /// <param name="diceObjects"></param>
-    public void SetAlphaDown(GameObject[] diceObjects)
+    public void SetAlphaDown(Dice[] diceObjects)
     {
-        foreach (GameObject diceObject in diceObjects)
+        foreach (Dice dice in diceObjects)
         {
-            var diceDisplay = diceObject.GetComponent<DiceDisplay>();
+            var diceDisplay = dice.GetComponent<DiceDisplay>();
             diceDisplay.SetAlphaDown();
         }
     }
@@ -126,11 +125,11 @@ public class RollPanel : MonoBehaviour
     /// </summary>
     /// <param name="diceObjects"></param>
     /// <param name="value"></param>
-    public void SendBackToBase(GameObject[] diceObjects)
+    public void SendBackToBase(Dice[] diceObjects)
     {
-        foreach (GameObject diceObject in diceObjects)
+        foreach (Dice dice in diceObjects)
         {
-            diceObject.GetComponent<DiceMovement>().SendBackToBase();
+            dice.GetComponent<DiceMovement>().SendBackToBase();
         }
     }
 
@@ -139,9 +138,9 @@ public class RollPanel : MonoBehaviour
     /// </summary>
     public void SetPlayDiceInactive()
             {
-        foreach (GameObject diceObject in PlayDice)
+        foreach (Dice dice in PlayDice)
         {
-            diceObject.SetActive(false);
+            dice.gameObject.SetActive(false);
         }
     }
 }

@@ -13,6 +13,9 @@ public abstract class Defend : ActionBase
         base(actionPanel, characterObject)
     { }
 
+    public abstract string Info(int index);
+    public abstract DefendSkill Skill(int index);
+
     public override bool IsValid(int diceNumber)
     {
         return CheckDiceCondition.IsNumberValid(AllowedDiceNumber, diceNumber);
@@ -20,7 +23,7 @@ public abstract class Defend : ActionBase
 
     public override abstract void SetDataPopUp(int diceNumber);
 
-    public override bool SetInteractible(int diceNumber)
+    public override bool FindInteractible(int diceNumber)
     {
         return true;
     }
@@ -51,12 +54,12 @@ public abstract class Defend : ActionBase
         }
         if (HitEndurance == 0)
         {
-            character.GetComponent<CharacterDefense>().SetDefault();
+            Character.GetComponent<CharacterDefense>().SetDefault();
             RoundEndurance = 0;
-            activeSkillIndex = 0;
-            character.GetComponent<CharacterWeapon>().IsRelaxing = true;
+            ActiveSkillIndex = 0;
+            Character.GetComponent<CharacterWeapon>().IsRelaxing = true;
         }
-        actionPanel.UpdateEndurance(HitEndurance, RoundEndurance);
+        ActionPanel.UpdateEndurance(HitEndurance, RoundEndurance);
     }
 
     /// <summary>
@@ -67,7 +70,7 @@ public abstract class Defend : ActionBase
         if (IsHitCrucial)
             return;
 
-        var playerType = character.Player.PlayerType;
+        var playerType = Character.Player.PlayerType;
 
         if (playerType != lastTurn)
         {
@@ -77,12 +80,12 @@ public abstract class Defend : ActionBase
             }
             if (RoundEndurance == 0)
             {
-                characterObject.GetComponent<CharacterDefense>().SetDefault();
+                CharacterObject.GetComponent<CharacterDefense>().SetDefault();
                 HitEndurance = 0;
-                activeSkillIndex = 0;
-                character.GetComponent<CharacterWeapon>().IsRelaxing = true;
+                ActiveSkillIndex = 0;
+                Character.GetComponent<CharacterWeapon>().IsRelaxing = true;
             }
-            actionPanel.UpdateEndurance(HitEndurance, RoundEndurance);
+            ActionPanel.UpdateEndurance(HitEndurance, RoundEndurance);
         }
     }
 

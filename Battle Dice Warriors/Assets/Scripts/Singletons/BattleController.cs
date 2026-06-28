@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class BattleController : MonoBehaviour
 {
@@ -20,9 +17,6 @@ public class BattleController : MonoBehaviour
 
     public ActionBase ActiveAction { get; set; }
 
-    public bool IsLockingAction { get; set; } = false;
-
-    
 
     /// <summary>
     /// Awake method.
@@ -51,7 +45,10 @@ public class BattleController : MonoBehaviour
     {
         FieldManager.Instance.DeactivateInteractibleFields();
         CharacterManager.Instance.DeactivateInteractibleCharacters();
+        
         ActiveAction = null;
+        
+        EventManager.Instance.OnResetAction?.Invoke();
         //SetCoroutineNull();
     }
 
