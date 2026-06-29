@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +12,7 @@ public class RollPanel : MonoBehaviour
     [SerializeField] private Dice[] _allDice;
     [SerializeField] private UndoButton[] _undoButtons;
 
-    public Dice[] PlayDice { get; private set; }
+    public List<Dice> PlayDice { get; private set; }
 
     /// <summary>
     /// Initializes the PlayDice array with the active dice from _allDice
@@ -18,9 +20,9 @@ public class RollPanel : MonoBehaviour
     /// </summary>
     public void InitializePlayDice()
     {
-        PlayDice = new Dice[LevelManager.Instance.Data.DiceAmount];
+        PlayDice = new List<Dice>();
 
-        for (int i = 0; i < PlayDice.Length; i++)
+        for (int i = 0; i < _allDice.Length; i++)
         {
             var dice = _allDice[i];
             dice.InitializeIndexOf(gameObject, i);
@@ -30,20 +32,7 @@ public class RollPanel : MonoBehaviour
             dice.SetComponentEnabled(diceDragEvent, false);
 
             _undoButtons[i].Init(dice);
-            PlayDice[i] = dice;
-        }
-    }
-
-    /// <summary>
-    /// Sets the dice inactive except for the PlayDice.
-    /// </summary>
-    /// <param name="amount"></param>
-    public void SetNonPlayDiceInactive()
-    {
-        for (int i = PlayDice.Length; i < _allDice.Length; i++)
-        {
-            var dice = _allDice[i];
-            dice.gameObject.SetActive(false);
+            PlayDice.Add(dice);
         }
     }
 
@@ -98,7 +87,7 @@ public class RollPanel : MonoBehaviour
     /// </summary>
     /// <param name="diceObjects"></param>
     /// <param name="value"></param>
-    public void SetDragEnabled(Dice[] diceObjects, bool value)
+    public void SetDragEnabled(List<Dice> diceObjects, bool value)
     {
         foreach (Dice dice in diceObjects)
         {
@@ -111,7 +100,7 @@ public class RollPanel : MonoBehaviour
     /// Sets the alpha of the dice down.
     /// </summary>
     /// <param name="diceObjects"></param>
-    public void SetAlphaDown(Dice[] diceObjects)
+    public void SetAlphaDown(List<Dice> diceObjects)
     {
         foreach (Dice dice in diceObjects)
         {
@@ -125,7 +114,7 @@ public class RollPanel : MonoBehaviour
     /// </summary>
     /// <param name="diceObjects"></param>
     /// <param name="value"></param>
-    public void SendBackToBase(Dice[] diceObjects)
+    public void SendBackToBase(List<Dice> diceObjects)
     {
         foreach (Dice dice in diceObjects)
         {

@@ -124,7 +124,6 @@ public class Character : MonoBehaviour
     /// </summary>
     public void SetInteractibleFalse()
     {
-        gameObject.tag = "Obstacle";
         GetComponent<CharacterState>().SetDownState();
         Panel.SetActionInactive();
 

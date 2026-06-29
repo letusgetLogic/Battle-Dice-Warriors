@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 4
   HP: 900
-  AP: 180
+  AP: 300
   DP: 50
   WeaponRight: {fileID: 5682825185749890722, guid: b64563ca19066bc4b94030c5883e045b, type: 3}
   WeaponLeft: {fileID: 1566500919570171256, guid: 2cedfa19aa9f2744bbc7a42b5cfce612, type: 3}
   ActionData:
   - {fileID: 11400000, guid: 2137ae5b088ed514b8698f8504d35c6e, type: 2}
-  - {fileID: 11400000, guid: 7798f8ad97765a342a1ddcf8f8817b40, type: 2}
+  - {fileID: 11400000, guid: ada44b34b22cdf6448491d9517aa026e, type: 2}
   - {fileID: 11400000, guid: 134800ccdc984074e9243d4149c7c198, type: 2}
-  - {fileID: 11400000, guid: d639251ebfce21745a49ba4ba4a87d37, type: 2}
+  - {fileID: 11400000, guid: 134800ccdc984074e9243d4149c7c198, type: 2}

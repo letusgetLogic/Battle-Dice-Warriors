@@ -5,6 +5,7 @@ using System;
 public class ActionPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _actionName;
+    [SerializeField] private TextMeshProUGUI _allowedDice;
     [SerializeField] private TextMeshProUGUI _hitEndurance;
     [SerializeField] private TextMeshProUGUI _roundEndurance;
     [SerializeField] private RectTransform _diceSlotAction;
@@ -27,12 +28,14 @@ public class ActionPanel : MonoBehaviour
     /// Initializes data.
     /// </summary>
     /// <param name="actionData"></param>
+    /// <param name="characterObject"></param>
     public void SetData(ActionData actionData, GameObject characterObject)
     {
         ActionData = actionData;
         Action = GetActionBase.Create(this, characterObject);
         CharacterObject = characterObject;
         _actionName.text = actionData.ActionType.ToString();
+        _allowedDice.text = EnumConverter<AllowedDiceNumber>.CreateStringFromEnum(actionData.AllowedDiceNumber);   
     }
 
     /// <summary>

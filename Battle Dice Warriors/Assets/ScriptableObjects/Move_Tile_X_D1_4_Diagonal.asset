@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e42d7787a854374ea3e3da25631e3b4, type: 3}
-  m_Name: Attack
+  m_Name: Move_Tile_X_D1_4_Diagonal
   m_EditorClassIdentifier: 
-  ActionType: 2
-  MovementKey: 0
-  AllowedTile: 0
-  AllowedDiceNumber: 7
-  Direction: 0
-  WeaponType: 1
-  Description: Move the dice over here to get more information
+  ActionType: 1
+  MovementKey: 12
+  AllowedTile: 1
+  AllowedDiceNumber: 9
+  Direction: 3
+  WeaponType: 0
+  Description: Move diagonally X Tiles,\n with Dice 1-4

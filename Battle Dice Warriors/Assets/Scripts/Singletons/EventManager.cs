@@ -20,4 +20,5 @@ public class EventManager
     }
 
     public UnityAction OnResetAction { get; set; }
+    public UnityAction OnUndoClicked { get; set; }
 }

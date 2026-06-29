@@ -10,7 +10,7 @@ public class ActionData : ScriptableObject
 {
     public ActionType ActionType;
 
-    public MovementType.MovementKey MovementKey;
+    public KeyType.MovementKey MovementKey;
     public AllowedTile AllowedTile;
     public AllowedDiceNumber AllowedDiceNumber;
     public Direction Direction;

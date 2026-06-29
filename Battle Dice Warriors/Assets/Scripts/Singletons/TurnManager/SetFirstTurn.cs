@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SetFirstTurn : MonoBehaviour
@@ -72,7 +73,7 @@ public class SetFirstTurn : MonoBehaviour
             return;
         }
 
-        var turnDice = new Dice[]
+        var turnDice = new List<Dice>
         {
                 _turnDiceLeft.GetComponent<Dice>(),
                 _turnDiceRight.GetComponent<Dice>(),

@@ -33,7 +33,6 @@ public class ActionDataEditor : Editor
 
             case ActionType.Attack:
                 DrawAttackFields();
-                _actionData.Description = Attack.DefaultInfo;
                 DrawDescriptionFields();
                 break;
 
@@ -58,11 +57,11 @@ public class ActionDataEditor : Editor
            _actionData.AllowedDiceNumber != AllowedDiceNumber.None &&
            _actionData.Direction != Direction.None)
         {
-            _actionData.MovementKey = EnumConverter.CreateEnumFrom(EnumsList());
+            _actionData.MovementKey = EnumConverter<KeyType.MovementKey>.CreateEnumFrom(EnumsList());
 
             EditorGUILayout.TextField("Movement Key", _actionData.MovementKey.ToString());
 
-            _actionData.Description = MovementType.Description[_actionData.MovementKey];
+            _actionData.Description = KeyType.MoveInfos[_actionData.MovementKey];
 
             DrawDescriptionFields();
         }
@@ -73,7 +72,18 @@ public class ActionDataEditor : Editor
     /// </summary>
     private void DrawAttackFields()
     {
+        _actionData.AllowedTile = (AllowedTile)EditorGUILayout.EnumPopup("Allowed Tile", _actionData.AllowedTile);
+        _actionData.AllowedDiceNumber = (AllowedDiceNumber)EditorGUILayout.EnumPopup("Allowed Dice Number", _actionData.AllowedDiceNumber);
+
         _actionData.WeaponType = (WeaponType)EditorGUILayout.EnumPopup("Weapon Type", _actionData.WeaponType);
+        if (_actionData.WeaponType == WeaponType.Bow)
+        {
+            _actionData.Direction = (Direction)EditorGUILayout.EnumPopup("Direction", _actionData.Direction);
+        }
+        else
+        {
+            _actionData.Description = Attack.DefaultInfo;
+        }
     }
 
     /// <summary>
@@ -81,6 +91,8 @@ public class ActionDataEditor : Editor
     /// </summary>
     private void DrawDefendFields()
     {
+        _actionData.AllowedDiceNumber = (AllowedDiceNumber)EditorGUILayout.EnumPopup("Allowed Dice Number", _actionData.AllowedDiceNumber);
+
         _actionData.WeaponType = (WeaponType)EditorGUILayout.EnumPopup("Weapon Type", _actionData.WeaponType);
     }
 

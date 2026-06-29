@@ -48,7 +48,7 @@ public class Field : MonoBehaviour
     /// <returns></returns>
     public GameObject EnemyObject(PlayerType currentPlayer)
     {
-        if (!IsAnyObstacleOnField())
+        if (Obstacle == null)
             return null;
 
         if (!Obstacle.CompareTag("Character"))
@@ -59,18 +59,6 @@ public class Field : MonoBehaviour
             return null;
 
         return Obstacle;
-    }
-
-    /// <summary>
-    /// Is any obstacle on the field?
-    /// </summary>
-    /// <returns></returns>
-    public bool IsAnyObstacleOnField()
-    {
-        if (Obstacle == null)
-            return false;
-
-        return true;
     }
 
     /// <summary>

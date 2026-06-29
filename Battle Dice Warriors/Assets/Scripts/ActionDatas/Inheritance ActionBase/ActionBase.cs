@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 public abstract class ActionBase
 {
-    protected ActionPanel ActionPanel { get; private set; }
+    public ActionPanel ActionPanel { get; private set; }
     protected GameObject CharacterObject { get; private set; }
     protected Character Character => CharacterObject.GetComponent<Character>();
 
@@ -83,18 +83,37 @@ public abstract class ActionBase
     }
 
     /// <summary>
+    /// Finds the target on a spot with a specified range and direction from the given origin field index.
+    /// </summary>
+    /// <param name="characterFieldIndexOrigin"></param>
+    /// <param name="actionDirection"></param>
+    /// <param name="range"></param>
+    /// <returns></returns>
+    public GameObject FindEnemy(Vector2Int characterFieldIndexOrigin,
+       Vector2Int actionDirection, int range)
+    {
+        var fieldIndex = characterFieldIndexOrigin;
+        fieldIndex += actionDirection * range;
+
+        if (FieldManager.Instance.IsTargetOutOfMap(fieldIndex))
+            return null;
+
+        var field = FieldManager.Instance.Fields[fieldIndex.x, fieldIndex.y].
+        GetComponent<Field>();
+
+        GameObject target = field.EnemyObject(Character.Player.PlayerType);
+
+        return target;
+    }
+
+    /// <summary>
     /// Finds the first target within a specified range and direction from the given origin field index.
     /// </summary>
-    /// <remarks>This method iterates through fields in the specified direction and range, skipping fields
-    /// that are out of bounds.  The search stops as soon as a valid target is found. If no target is found within the
-    /// range, the method returns <see langword="null"/>.</remarks>
-    /// <param name="characterFieldIndexOrigin">The starting field index of the character, represented as a 2D grid coordinate.</param>
-    /// <param name="actionDirection">The direction in which to search for the target, represented as a 2D vector.</param>
-    /// <param name="range">The maximum number of fields to search in the specified direction. Must be a positive integer.</param>
-    /// <param name="objectManager">An object that defines the logic for identifying the target within a field.</param>
-    /// <returns>The first <see cref="GameObject"/> found within the specified range and direction that matches the criteria
-    /// defined by  <paramref name="objectManager"/>. Returns <see langword="null"/> if no target is found.</returns>
-    public GameObject FindEnemy(Vector2Int characterFieldIndexOrigin,
+    /// <param name="characterFieldIndexOrigin"></param>
+    /// <param name="actionDirection"></param>
+    /// <param name="range"></param>
+    /// <returns></returns>
+    public GameObject FindFirstEnemy(Vector2Int characterFieldIndexOrigin,
        Vector2Int actionDirection, int range)
     {
         for (int i = 1; i <= range; i++)

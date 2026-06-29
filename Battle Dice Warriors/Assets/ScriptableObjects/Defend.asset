@@ -15,7 +15,7 @@ MonoBehaviour:
   ActionType: 3
   MovementKey: 0
   AllowedTile: 0
-  AllowedDiceNumber: 0
+  AllowedDiceNumber: 7
   Direction: 0
   WeaponType: 2
   Description: Move the dice over here to get more information

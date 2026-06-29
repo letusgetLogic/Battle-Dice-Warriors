@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Character_Tank
   m_EditorClassIdentifier: 
   Type: 0
-  HP: 1000
+  HP: 1200
   AP: 200
   DP: 100
   WeaponRight: {fileID: 4454906068307276358, guid: 8a2fe4dff3f74c84d97fe590b3dcf2db, type: 3}
   WeaponLeft: {fileID: 2106958939825099808, guid: b3db58b855c74cf479f616ae0971db9c, type: 3}
   ActionData:
-  - {fileID: 11400000, guid: a99e4885038e1bd47b861de03854260d, type: 2}
-  - {fileID: 11400000, guid: 946cc14c6b932cd478dca5f2956928e2, type: 2}
+  - {fileID: 11400000, guid: 2137ae5b088ed514b8698f8504d35c6e, type: 2}
+  - {fileID: 11400000, guid: 21ffa9be256655f4ca8c1bd20044774f, type: 2}
   - {fileID: 11400000, guid: 134800ccdc984074e9243d4149c7c198, type: 2}
   - {fileID: 11400000, guid: 7326a3cdcb00f2c40b57e42807864fc8, type: 2}

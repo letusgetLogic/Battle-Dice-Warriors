@@ -5,7 +5,6 @@ public abstract class Attack : ActionBase
     public static readonly string DefaultInfo =
         "Move the dice over here to get more information";
 
-    public AllowedDiceNumber AllowedDiceNumber { get; protected set; }
     public int HitEndurance { get; protected set; }
     public int RoundEndurance { get; protected set; }
 
@@ -37,11 +36,6 @@ public abstract class Attack : ActionBase
     public abstract string Info(int index);
     public abstract AttackSkill Skill(int index);
 
-    public override bool IsValid(int diceNumber)
-    {
-        return CheckDiceCondition.IsNumberValid(AllowedDiceNumber, diceNumber);
-    }
-
     public override void SetDataPopUp(int index)
     {
         if (index == 0 && ActiveSkillIndex != 0)
@@ -51,7 +45,6 @@ public abstract class Attack : ActionBase
         }
         PopUpAction.Instance.SetData(Info(index));
     }
-
 
     public override bool FindInteractible(int diceNumber)
     {

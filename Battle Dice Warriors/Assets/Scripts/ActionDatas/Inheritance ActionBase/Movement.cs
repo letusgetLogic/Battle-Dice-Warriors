@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEngine;
 
 public class Movement : ActionBase
 {
     public Movement(ActionPanel actionPanel, GameObject characterObject) :
         base(actionPanel, characterObject)
-    {}
+    { }
     public override void SetDataPopUp(int index)
     {
         // Dragging nothing and dice is on slot
@@ -28,8 +29,8 @@ public class Movement : ActionBase
     private string Description(int index)
     {
         string s = "Move ";
-        
-        switch(ActionPanel.ActionData.Direction)
+
+        switch (ActionPanel.ActionData.Direction)
         {
             case Direction.None:
                 break;
@@ -52,7 +53,7 @@ public class Movement : ActionBase
 
     public override bool FindInteractible(int diceNumber)
     {
-        Vector2Int[] actionDirections = 
+        Vector2Int[] actionDirections =
             GetVector2IntFromDirection.Get(base.ActionPanel.ActionData.Direction);
 
         int range = GetIntFromAllowedTile.Get(ActionPanel.ActionData.AllowedTile, diceNumber);
@@ -69,7 +70,7 @@ public class Movement : ActionBase
             Vector2Int fieldIndex = Character.FieldIndex;
             fieldIndex += actionDirection * range;
 
-            GameObject fieldObject = 
+            GameObject fieldObject =
                 FieldManager.Instance.Fields[fieldIndex.x, fieldIndex.y];
 
             FieldManager.Instance.AddInteractibleField(fieldObject);
@@ -103,7 +104,12 @@ public class Movement : ActionBase
             var field = FieldManager.Instance.Fields[fieldIndex.x, fieldIndex.y].
             GetComponent<Field>();
 
-            if (field.IsAnyObstacleOnField())
+            // Should not step on a field with other character
+            if (i == range && field.Obstacle != null)
+                return true;
+
+            var enemy = field.EnemyObject(Character.Player.PlayerType);
+            if (enemy != null)
                 return true;
         }
         return false;

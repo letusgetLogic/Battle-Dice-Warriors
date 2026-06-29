@@ -116,7 +116,6 @@ public class PanelManager : MonoBehaviour
     private void InitializeRollPanel(RollPanel rollPanel)
     {
         rollPanel.InitializePlayDice();
-        rollPanel.SetNonPlayDiceInactive();
         //rollPanel.SetScaleDiceZero();
         ButtonManager.Instance.SetButtonInteractible(rollPanel.RollButton, false);
     }

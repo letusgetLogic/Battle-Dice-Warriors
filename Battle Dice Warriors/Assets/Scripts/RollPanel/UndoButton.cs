@@ -10,6 +10,7 @@ public class UndoButton : MonoBehaviour
     {
         undoButton.onClick.AddListener(OnUndoClicked);
         undoButton.interactable = false;
+        undoButton.gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -25,17 +26,30 @@ public class UndoButton : MonoBehaviour
     public void Init(Dice dice)
     {
         Dice = dice;
-        Dice.OnDropped += (myDice) => undoButton.interactable = true;
+        Dice.OnDropped += EnableUndo;
     }
 
     public void OnUndoClicked()
     {
         undoButton.interactable = false;
         Dice.GetComponent<DiceMovement>().SendBackToBase();
+        Dice.SetDefault();
+        Dice.GetComponent<DiceDisplay>().SetDefault();
+
+        var diceDragEvent = Dice.GetComponent<DiceDragEvent>();
+        Dice.SetComponentEnabled(diceDragEvent, true);
+
+        EventManager.Instance.OnUndoClicked?.Invoke();
     }
 
+    public void EnableUndo(Dice dice)
+    {
+        undoButton.interactable = true;
+        undoButton.gameObject.SetActive(true);
+    }
     public void DisableUndo()
     {
         undoButton.interactable = false;
+        undoButton.gameObject.SetActive(false);
     }
 }

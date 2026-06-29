@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Character_Archer
   m_EditorClassIdentifier: 
   Type: 1
-  HP: 500
-  AP: 300
+  HP: 800
+  AP: 400
   DP: 40
   WeaponRight: {fileID: 1662544627993326492, guid: b759690d94541834fa2dbedce7ec0cfb, type: 3}
   WeaponLeft: {fileID: 5954002083150134067, guid: b6d1853a5a0df614f9e6da89b84b5b5b, type: 3}
   ActionData:
   - {fileID: 11400000, guid: a99e4885038e1bd47b861de03854260d, type: 2}
-  - {fileID: 11400000, guid: 946cc14c6b932cd478dca5f2956928e2, type: 2}
-  - {fileID: 11400000, guid: 134800ccdc984074e9243d4149c7c198, type: 2}
+  - {fileID: 11400000, guid: 21ffa9be256655f4ca8c1bd20044774f, type: 2}
+  - {fileID: 11400000, guid: 6ce55cf68436e344fac87592433d8738, type: 2}
+  - {fileID: 11400000, guid: 7b1c327dc0b4a00448d5e68ddaca3e38, type: 2}

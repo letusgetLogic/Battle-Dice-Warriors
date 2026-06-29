@@ -32,7 +32,6 @@ public class MeleeBehaviour : Attack
     public MeleeBehaviour(ActionPanel actionPanel, GameObject characterObject, WeaponType weaponType) :
         base(actionPanel, characterObject)
     {
-        AllowedDiceNumber = AllowedDiceNumber.D1_6;
         switch (weaponType)
         {
             case WeaponType.Sword:

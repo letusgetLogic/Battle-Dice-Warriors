@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterGenerator : MonoBehaviour
@@ -43,12 +44,14 @@ public class CharacterGenerator : MonoBehaviour
         RandomizeIndexes(playerType, randomIndexes);
         GetSpawnPositions(randomPositions, randomIndexes);
 
+        List<int> characterIndexes = CharacterIndexes();
+
         for (int i = 0; i < LevelManager.Instance.Data.CharacterAmount; i++)
         {
             var characterObject =
                 Instantiate(_characterPrefab, randomPositions[i], Quaternion.identity);
 
-            SetReference(characterObject, player, playerType, randomIndexes[i], i);
+            SetReference(characterObject, characterIndexes[i], player, playerType, randomIndexes[i], i);
             
             tempList.Add(characterObject);
         }
@@ -60,13 +63,13 @@ public class CharacterGenerator : MonoBehaviour
     /// Sets the references for the character.
     /// </summary>
     /// <param name="characterObject"></param>
-    private void SetReference(GameObject characterObject, Player player, 
+    private void SetReference(GameObject characterObject, int dataIndex, Player player, 
                                 PlayerType playerType, Vector2Int randomIndex, int index)
     {
         var character = characterObject.GetComponent<Character>();
 
         // Data
-        var characterData = _characterData[Random.Range(0, _characterDataDefinedLength)];
+        var characterData = _characterData[dataIndex];
         character.SetData(player, characterData, randomIndex);
 
         // Weapon
@@ -189,5 +192,38 @@ public class CharacterGenerator : MonoBehaviour
         }
 
         return default;
+    }
+
+    private List<int> CharacterIndexes()
+    {
+        var list = new List<int>();
+
+        var list1 = RandomListOfEachCharacters();
+
+        for (int i = 0; i < LevelManager.Instance.Data.CharacterAmount; i++)
+        {
+            if (i < list1.Count)
+            {
+                list.Add(list1[i]);
+            }
+            else
+            {
+                int rnd = Random.Range(0, _characterDataDefinedLength);
+                list.Add(rnd);
+            }
+        }
+
+        return list;
+    }
+
+    private List<int> RandomListOfEachCharacters()
+    {
+        if (_characterDataDefinedLength == 1)
+            return new List<int> { 0 };
+
+        // Randomize the character data index for each character.
+        var rangeList = Enumerable.Range(0, _characterDataDefinedLength).ToList(); 
+        rangeList.Shuffle(); // Shuffles in place  
+        return rangeList;
     }
 }

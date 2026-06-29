@@ -8,7 +8,7 @@ public class ActionPanelMouseEvent : MonoBehaviour,
     [SerializeField][Range(0f, 1f)] private float _delayOnHoverTime = .5f;
     public float DelayOnHoverTime => _delayOnHoverTime;
 
-    private IEnumerator _coroutine;
+    private Coroutine _coroutine;
     private PlayerType _playerType => GetComponent<ActionPanel>().
         CharacterObject.GetComponent<Character>().Player.PlayerType;
 
@@ -28,8 +28,7 @@ public class ActionPanelMouseEvent : MonoBehaviour,
             dice = eventData.pointerDrag.GetComponent<Dice>();
         }
 
-        _coroutine = ShowInfo(dice);
-        StartCoroutine(_coroutine);
+        _coroutine = StartCoroutine(ShowInfo(dice));
     }
 
     /// <summary>

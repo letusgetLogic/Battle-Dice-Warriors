@@ -31,6 +31,16 @@ public class BattleController : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        EventManager.Instance.OnUndoClicked += SetActiveActionDefault;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.OnUndoClicked -= SetActiveActionDefault;
+    }
+
     /// <summary>
     /// Starts the match by enabling the End Turn button.
     /// </summary>
@@ -45,9 +55,9 @@ public class BattleController : MonoBehaviour
     {
         FieldManager.Instance.DeactivateInteractibleFields();
         CharacterManager.Instance.DeactivateInteractibleCharacters();
-        
+
         ActiveAction = null;
-        
+
         EventManager.Instance.OnResetAction?.Invoke();
         //SetCoroutineNull();
     }
@@ -73,6 +83,16 @@ public class BattleController : MonoBehaviour
     {
         ActiveAction.ProcessInput(clickedObject);
         ActiveAction = null;
+        DeactivateInteractible();
+    }
+
+    private void SetActiveActionDefault()
+    {
+        if (ActiveAction != null)
+        {
+            ActiveAction.ActionPanel.UpdateEndurance(0, 0);
+            ActiveAction.SetDefault();
+        }
         DeactivateInteractible();
     }
 
